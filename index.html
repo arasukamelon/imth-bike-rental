@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>IMTH Bike Rental</title>
+
+<meta name="robots" content="noindex, nofollow">
+
+<link rel="stylesheet" href="style.css">
+
+<script defer src="script.js"></script>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+<div class="logo">IMTH Bike Rental</div>
+
+<ul>
+
+<li><a href="#home">Home</a></li>
+<li><a href="#bikes">Bikes</a></li>
+<li><a href="#booking">Booking</a></li>
+
+</ul>
+
+</nav>
+
+<!-- HERO IMAGE -->
+
+<section class="hero">
+
+<img src="bike-banner.jpg" alt="Bike Rental">
+
+</section>
+
+<!-- JUMBOTRON -->
+
+<section class="jumbotron" id="home">
+
+<h1>Welcome to IMTH Bike Rental</h1>
+
+<p>Convenient Bike Rentals for Students</p>
+
+</section>
+
+<!-- BIKE SECTION -->
+
+<section class="container" id="bikes">
+
+<h2>Available Bikes</h2>
+
+<div class="bike-grid">
+
+<div class="bike-card">
+<img src="images/bike1.jpg">
+
+<h3>Standard Bike</h3>
+
+<p>Price: ₹120 / hour</p>
+
+<p>Stock: 10</p>
+
+</div>
+
+<div class="bike-card">
+<img src="images/bike2.jpg">
+
+<h3>Sport Bike</h3>
+
+<p>Price: ₹200 / hour</p>
+
+<p>Stock: 6</p>
+
+</div>
+
+<div class="bike-card">
+<img src="images/bike3.jpg">
+
+<h3>Electric Scooter</h3>
+
+<p>Price: ₹90 / hour</p>
+
+<p>Stock: 8</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- BOOKING -->
+
+<section class="container" id="booking">
+
+<h2>Bike Rental Booking</h2>
+
+<form id="bookingForm">
+
+<label>Full Name</label>
+<input id="name" placeholder="Full Name" required>
+
+<label>Student ID</label>
+<input id="student" placeholder="Student ID" required>
+
+<label>Email</label>
+<input id="email" type="email" required>
+
+<label>Phone</label>
+<input id="phone" required>
+
+<label>Bike Type</label>
+
+<select id="bikeType">
+
+<option value="">Select Bike</option>
+
+<option value="120">Standard Bike (₹120/hour)</option>
+
+<option value="200">Sport Bike (₹200/hour)</option>
+
+<option value="90">Electric Scooter (₹90/hour)</option>
+
+</select>
+
+<label>Rental Duration (hours)</label>
+
+<input id="hours" type="number" min="1">
+
+<label>Total Price</label>
+
+<input type="text" id="totalPrice" readonly>
+
+<label>Upload Payment Proof</label>
+
+<input type="file" required>
+
+<button type="submit">Submit Booking</button>
+
+</form>
+
+</section>
+
+<footer>
+
+<p>© 2026 IMTH Bike Rental Service</p>
+
+</footer>
+
+</body>
+</html>
