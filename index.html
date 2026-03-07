@@ -2,43 +2,33 @@
 <html lang="en">
 
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>IMTH Bike Rental</title>
-
-<meta name="robots" content="noindex, nofollow">
-
-<link rel="stylesheet" href="style.css">
-
-<script defer src="script.js"></script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMTH Bike Rental</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
 </head>
 
 <body>
-
 <!-- NAVBAR -->
-
 <nav class="navbar">
-
 <div class="logo">IMTH Bike Rental</div>
 
 <ul>
-
 <li><a href="#home">Home</a></li>
 <li><a href="#bikes">Bikes</a></li>
 <li><a href="#booking">Booking</a></li>
-
+<li><a href="#schedule">Today's Bookings</a></li>
+<li><a href="#history">Booking History</a></li>
 </ul>
-
 </nav>
 
 <!-- HERO IMAGE -->
 
 <section class="hero">
 
-<img src="bg-image.jpeg" alt="Bike Rental">
+<img src="images/bg-image.jpeg" alt="Bike Rental">
 
 </section>
 
@@ -62,35 +52,29 @@
 
 <div class="bike-list">
 <div class="bike-card">
-<img src="bike1.jpeg">
+<img src="images/bike1.jpeg">
 
 <h3>Standard Bike</h3>
 
 <p>Price: ₹120 / hour</p>
 
-<p>Stock: 10</p>
-
 </div>
 
 <div class="bike-card">
-<img src="bike2.jpeg">
+<img src="images/bike2.jpeg">
 
 <h3>Sport Bike</h3>
 
 <p>Price: ₹200 / hour</p>
 
-<p>Stock: 6</p>
-
 </div>
 
 <div class="bike-card">
-<img src="bike3.jpeg">
+<img src="images/bike3.jpeg">
 
 <h3>Electric Scooter</h3>
 
 <p>Price: ₹90 / hour</p>
-
-<p>Stock: 8</p>
 
 </div>
 </div>
@@ -122,16 +106,22 @@
 <label>Bike Type</label>
 
 <select id="bikeType">
-
 <option value="">Select Bike</option>
 
-<option value="120">Standard Bike (₹120/hour)</option>
-
-<option value="200">Sport Bike (₹200/hour)</option>
-
-<option value="90">Electric Scooter (₹90/hour)</option>
+<option value="Standard Bike">Standard Bike (₹120/hour)</option>
+<option value="Sport Bike">Sport Bike (₹200/hour)</option>
+<option value="Electric Scooter">Electric Scooter (₹90/hour)</option>
 
 </select>
+
+<label>Rental Date</label>
+<input type="date" id="date" required>
+
+<label>Start Time</label>
+<input type="time" id="start" required>
+
+<label>End Time</label>
+<input type="time" id="end" required>
 
 <label>Rental Duration (hours)</label>
 
@@ -141,6 +131,29 @@
 
 <input type="text" id="totalPrice" readonly>
 
+<!-- PAYMENT METHOD -->
+
+<label>Payment Method</label>
+
+<select id="payment" onchange="showPayment()">
+<option value="">Select payment</option>
+<option value="QR">QR Payment</option>
+<option value="Card">Debit / Credit Card</option>
+</select>
+
+<div id="qrBox">
+<img src="images/qr.avif" width="200">
+</div>
+
+<div id="cardForm">
+
+<input type="text" placeholder="Card Number">
+<input type="text" placeholder="Expiry Date">
+<input type="text" placeholder="CVV">
+
+</div>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
 <label>Upload Payment Proof</label>
 
 <input type="file" required>
@@ -148,6 +161,48 @@
 <button type="submit">Submit Booking</button>
 
 </form>
+
+</section>
+
+<!-- BOOKING SCHEDULE -->
+<section id="schedule">
+
+<h2>Today's Bookings</h2>
+
+<table id="scheduleTable">
+
+<thead>
+<tr>
+<th>Bike</th>
+<th>Time</th>
+</tr>
+</thead>
+
+<tbody></tbody>
+
+</table>
+
+</section>
+
+<!-- BOOKING HISTORY -->
+<section id="history">
+
+<h2>Booking History</h2>
+
+<table id="historyTable">
+
+<thead>
+<tr>
+<th>Bike</th>
+<th>Date</th>
+<th>Time</th>
+<th>Payment</th>
+</tr>
+</thead>
+
+<tbody></tbody>
+
+</table>
 
 </section>
 
