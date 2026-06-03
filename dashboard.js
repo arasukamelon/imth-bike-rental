@@ -1,4 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbziLsagcSq1NvyBy4dRrIvSia3j5fbBxXVeFJ1mCD6HTdGBjvLK9fO-q9vWU32DDgrBjA/exec"
+const API_URL = "https://script.google.com/macros/s/AKfycbyZoXCrJdUyzFfms_NNeTXYh7rB-JnmYXkw7WEGn4Z3WkqjYBk4tTqp62Qy8mCG5hSMEQ/exec"
 
 
 // FORMAT TANGGAL
