@@ -1,217 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMTH Bike Rental</title>
-    <meta name="robots" content="noindex, nofollow">
-    <link rel="stylesheet" href="style.css">
-    <script defer src="script.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eazy Rides – Bike Rental</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+
 <!-- NAVBAR -->
 <nav class="navbar">
-<div class="logo">IMTH Bike Rental</div>
-
-<ul>
-<li><a href="#home">Home</a></li>
-<li><a href="#bikes">Bikes</a></li>
-<li><a href="#booking">Booking</a></li>
-<li><a href="#schedule">Today's Bookings</a></li>
-<li><a href="#history">Booking History</a></li>
-</ul>
+  <div class="logo">
+    <img src="logo.jpeg" alt="Logo">
+    <span>Eazy Rides</span>
+  </div>
+  <ul>
+    <li><a href="#home"     data-i18n="nav.home">Home</a></li>
+    <li><a href="#bikes"    data-i18n="nav.bikes">Bikes</a></li>
+    <li><a href="#booking"  data-i18n="nav.book">Book Now</a></li>
+    <li><a href="#schedule" data-i18n="nav.today">Today</a></li>
+    <li><a href="#history"  data-i18n="nav.history">History</a></li>
+  </ul>
+  <div class="nav-controls">
+    <select id="language" title="Language" onchange="applyLanguage(this.value)">
+      <option value="en">🇬🇧 EN</option>
+      <option value="hi">🇮🇳 हिन्दी</option>
+    </select>
+    <label class="switch" title="Dark Mode">
+      <input type="checkbox" id="darkMode" onchange="toggleDark(this.checked)">
+      <span class="slider"></span>
+    </label>
+  </div>
 </nav>
 
-<!-- HERO IMAGE -->
-
-<section class="hero">
-
-<img src="bg-image.jpeg" alt="Bike Rental">
-
+<!-- HERO -->
+<section class="hero" id="home">
+  <img src="bg-image.jpeg" alt="Bike Rental">
+  <div class="hero-text">
+    <h1 data-i18n="hero.title">Ride Free.<br>Rent Easy.</h1>
+    <p data-i18n="hero.sub">Campus bike rentals for students</p>
+    <a href="#booking" class="btn" data-i18n="hero.cta">Book a Bike</a>
+  </div>
 </section>
 
-<!-- JUMBOTRON -->
+<!-- BIKES -->
+<section class="section" id="bikes">
+  <h2 data-i18n="bikes.title">Our Bikes</h2>
+  <p class="sub" data-i18n="bikes.sub">Simple pricing — ₹100 first hour, ₹50 each hour after</p>
+  <div class="bike-grid">
 
-<section class="jumbotron" id="home">
+    <div class="bike-card" data-bike="Standard Bike">
+      <img src="bike1.jpeg" alt="Standard Bike">
+      <div class="card-body">
+        <h3 data-i18n="bikes.standard">Standard Bike</h3>
+        <p data-i18n="bikes.standard.desc">Great for short campus trips</p>
+        <span class="price" data-i18n="bikes.price">₹100 / first hr · ₹50 next</span>
+      </div>
+      <div class="unavailable-badge" data-i18n="bikes.rented">Currently Rented</div>
+    </div>
 
-<h1>Welcome to IMTH Bike Rental</h1>
+    <div class="bike-card" data-bike="Sport Bike">
+      <img src="bike2.jpeg" alt="Sport Bike">
+      <div class="card-body">
+        <h3 data-i18n="bikes.sport">Sport Bike</h3>
+        <p data-i18n="bikes.sport.desc">For the fast-moving student</p>
+        <span class="price" data-i18n="bikes.price">₹100 / first hr · ₹50 next</span>
+      </div>
+      <div class="unavailable-badge" data-i18n="bikes.rented">Currently Rented</div>
+    </div>
 
-<p>Convenient Bike Rentals for Students</p>
+    <div class="bike-card" data-bike="Electric Scooter">
+      <img src="bike3.jpeg" alt="Electric Scooter">
+      <div class="card-body">
+        <h3 data-i18n="bikes.electric">Electric Scooter</h3>
+        <p data-i18n="bikes.electric.desc">Eco-friendly &amp; smooth ride</p>
+        <span class="price" data-i18n="bikes.price">₹100 / first hr · ₹50 next</span>
+      </div>
+      <div class="unavailable-badge" data-i18n="bikes.rented">Currently Rented</div>
+    </div>
 
+  </div>
 </section>
 
-<!-- BIKE SECTION -->
+<!-- BOOKING FORM -->
+<section class="section alt" id="booking">
+  <h2 data-i18n="form.title">Book a Bike</h2>
+  <form id="bookingForm">
 
-<section class="container" id="bikes">
+    <div class="form-row">
+      <div class="field">
+        <label data-i18n="form.name">Full Name</label>
+        <input id="name" data-i18n-ph="form.name.ph" placeholder="Your full name" required>
+      </div>
+      <div class="field">
+        <label data-i18n="form.student">Student ID</label>
+        <input id="student" data-i18n-ph="form.student.ph" placeholder="e.g. 2023001" required>
+      </div>
+    </div>
 
-<h2>Available Bikes</h2>
+    <div class="form-row">
+      <div class="field">
+        <label data-i18n="form.email">Email</label>
+        <input id="email" type="email" data-i18n-ph="form.email.ph" placeholder="you@campus.edu" required>
+      </div>
+      <div class="field">
+        <label data-i18n="form.phone">Phone</label>
+        <input id="phone" data-i18n-ph="form.phone.ph" placeholder="+91 ..." required>
+      </div>
+    </div>
 
-<div class="bike-grid">
+    <div class="field">
+      <label data-i18n="form.bike">Bike Type</label>
+      <select id="bikeType" required>
+        <option value="" data-i18n="form.bike.select">Select a bike</option>
+        <option value="Standard Bike" data-i18n="bikes.standard">Standard Bike</option>
+        <option value="Sport Bike"    data-i18n="bikes.sport">Sport Bike</option>
+        <option value="Electric Scooter" data-i18n="bikes.electric">Electric Scooter</option>
+      </select>
+    </div>
 
-<div class="bike-list">
-<div class="bike-card">
-<img src="bike1.jpeg">
+    <div class="form-row">
+      <div class="field">
+        <label data-i18n="form.date">Rental Date</label>
+        <input type="date" id="date" required>
+      </div>
+      <div class="field">
+        <label data-i18n="form.start">Start Time</label>
+        <input type="time" id="start" required>
+      </div>
+      <div class="field">
+        <label data-i18n="form.end">End Time</label>
+        <input type="time" id="end" required>
+      </div>
+    </div>
 
-<h3>Standard Bike</h3>
+    <div class="form-row">
+      <div class="field">
+        <label data-i18n="form.hours">Duration (hours)</label>
+        <input id="hours" type="number" min="1" data-i18n-ph="form.hours.ph" placeholder="e.g. 2">
+      </div>
+      <div class="field">
+        <label data-i18n="form.total">Total Price</label>
+        <input id="totalPrice" readonly data-i18n-ph="form.total.ph" placeholder="Auto-calculated">
+      </div>
+    </div>
 
-<p>Price: ₹120 / hour</p>
+    <div class="field">
+      <label data-i18n="form.payment">Payment Method</label>
+      <select id="payment" required onchange="showPayment()">
+        <option value=""    data-i18n="form.payment.select">Select payment</option>
+        <option value="QR"  data-i18n="form.payment.qr">QR Payment</option>
+        <option value="Card"data-i18n="form.payment.card">Debit / Credit Card</option>
+      </select>
+    </div>
 
-</div>
+    <div id="qrBox">
+      <p data-i18n="form.qr.label">Scan to pay:</p>
+      <img src="qr.avif" alt="QR Code" width="180">
+    </div>
 
-<div class="bike-card">
-<img src="bike2.jpeg">
+    <div id="cardForm">
+      <input type="text" data-i18n-ph="form.card.number"  placeholder="Card Number">
+      <input type="text" data-i18n-ph="form.card.expiry"  placeholder="Expiry Date (MM/YY)">
+      <input type="text" data-i18n-ph="form.card.cvv"     placeholder="CVV">
+    </div>
 
-<h3>Sport Bike</h3>
+    <div class="field">
+      <label data-i18n="form.proof">Upload Payment Proof</label>
+      <input type="file" id="proof" accept="image/*,.pdf" required>
+      <p class="field-hint" data-i18n="form.proof.hint">Upload screenshot or photo of your payment (JPG, PNG, PDF)</p>
+    </div>
 
-<p>Price: ₹200 / hour</p>
+    <button type="submit" id="submitBtn" data-i18n="form.submit">Submit Booking</button>
 
-</div>
-
-<div class="bike-card">
-<img src="bike3.jpeg">
-
-<h3>Electric Scooter</h3>
-
-<p>Price: ₹90 / hour</p>
-
-</div>
-</div>
-
-</div>
-
+  </form>
 </section>
 
-<!-- BOOKING -->
-
-<section class="container" id="booking">
-
-<h2>Bike Rental Booking</h2>
-
-<form id="bookingForm">
-
-<label>Full Name</label>
-<input id="name" placeholder="Full Name" required>
-
-<label>Student ID</label>
-<input id="student" placeholder="Student ID" required>
-
-<label>Email</label>
-<input id="email" type="email" required>
-
-<label>Phone</label>
-<input id="phone" required>
-
-<label>Bike Type</label>
-
-<select id="bikeType">
-<option value="">Select Bike</option>
-
-<option value="Standard Bike">Standard Bike (₹120/hour)</option>
-<option value="Sport Bike">Sport Bike (₹200/hour)</option>
-<option value="Electric Scooter">Electric Scooter (₹90/hour)</option>
-
-</select>
-
-<label>Rental Date</label>
-<input type="date" id="date" required>
-
-<label>Start Time</label>
-<input type="time" id="start" required>
-
-<label>End Time</label>
-<input type="time" id="end" required>
-
-<label>Rental Duration (hours)</label>
-
-<input id="hours" type="number" min="1">
-
-<label>Total Price</label>
-
-<input type="text" id="totalPrice" readonly>
-
-<!-- PAYMENT METHOD -->
-
-<label>Payment Method</label>
-
-<select id="payment" onchange="showPayment()">
-<option value="">Select payment</option>
-<option value="QR">QR Payment</option>
-<option value="Card">Debit / Credit Card</option>
-</select>
-
-<div id="qrBox">
-<img src="qr.avif" width="200">
-</div>
-
-<div id="cardForm">
-
-<input type="text" placeholder="Card Number">
-<input type="text" placeholder="Expiry Date">
-<input type="text" placeholder="CVV">
-
-</div>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
-<label>Upload Payment Proof</label>
-
-<input type="file" required>
-
-<button type="submit">Submit Booking</button>
-
-</form>
-
+<!-- TODAY'S SCHEDULE -->
+<section class="section" id="schedule">
+  <h2 data-i18n="schedule.title">Today's Bookings</h2>
+  <div class="table-wrap">
+    <table id="scheduleTable">
+      <thead>
+        <tr>
+          <th data-i18n="table.bike">Bike</th>
+          <th data-i18n="table.time">Time Slot</th>
+          <th data-i18n="table.status">Status</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
 </section>
 
-<!-- BOOKING SCHEDULE -->
-<section id="schedule">
-
-<h2>Today's Bookings</h2>
-
-<table id="scheduleTable">
-
-<thead>
-<tr>
-<th>Bike</th>
-<th>Time</th>
-</tr>
-</thead>
-
-<tbody></tbody>
-
-</table>
-
-</section>
-
-<!-- BOOKING HISTORY -->
-<section id="history">
-
-<h2>Booking History</h2>
-
-<table id="historyTable">
-
-<thead>
-<tr>
-<th>Bike</th>
-<th>Date</th>
-<th>Time</th>
-<th>Payment</th>
-</tr>
-</thead>
-
-<tbody></tbody>
-
-</table>
-
+<!-- HISTORY -->
+<section class="section alt" id="history">
+  <h2 data-i18n="history.title">Booking History</h2>
+  <div class="table-wrap">
+    <table id="historyTable">
+      <thead>
+        <tr>
+          <th data-i18n="table.bike">Bike</th>
+          <th data-i18n="table.date">Date</th>
+          <th data-i18n="table.time">Time</th>
+          <th data-i18n="table.payment">Payment</th>
+          <th data-i18n="table.status">Status</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
 </section>
 
 <footer>
-
-<p>© 2026 IMTH Bike Rental Service</p>
-
+  <p>© 2026 Eazy Rides — IMTH Campus</p>
 </footer>
 
+<!-- CS WHATSAPP BUTTON -->
+<a class="cs-btn" href="https://wa.me/917604013917?text=Hello%20Eazy%20Rides!%20I%20need%20your%20help." target="_blank" title="Chat CS via WhatsApp">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+  <span data-i18n="cs.label">CS / Help</span>
+</a>
+
+<script src="script.js"></script>
 </body>
 </html>
-
