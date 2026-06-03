@@ -1,78 +1,215 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eazy Rides – Admin Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
-<title>Admin Login</title>
+    :root {
+      --red: #D32F2F;
+      --red-dark: #B71C1C;
+    }
 
-<link rel="stylesheet" href="style.css">
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
 
-<style>
+    /* animated background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at 20% 50%, rgba(211,47,47,0.18) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 20%, rgba(183,28,28,0.12) 0%, transparent 50%);
+      pointer-events: none;
+    }
 
-body{
-font-family:Segoe UI;
-background:#f4f4f4;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-}
+    .card {
+      background: #1c1c1c;
+      border: 1px solid #2e2e2e;
+      border-radius: 20px;
+      padding: 48px 40px;
+      width: 380px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      position: relative;
+      z-index: 1;
+    }
 
-.login-box{
-background:white;
-padding:40px;
-border-radius:12px;
-box-shadow:0 6px 15px rgba(0,0,0,0.15);
-width:320px;
-text-align:center;
-}
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
 
-.login-box h2{
-margin-bottom:20px;
-}
+    .brand-icon {
+      width: 44px; height: 44px;
+      background: var(--red);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
 
-.login-box input{
-width:100%;
-padding:10px;
-margin:10px 0;
-border:1px solid #ccc;
-border-radius:6px;
-}
+    .brand-text h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+    }
 
-.login-box button{
-width:100%;
-padding:12px;
-background:#ff7f00;
-border:none;
-color:white;
-border-radius:8px;
-font-size:16px;
-cursor:pointer;
-}
+    .brand-text p {
+      font-size: 0.75rem;
+      color: #666;
+      margin-top: 2px;
+    }
 
-.login-box button:hover{
-background:#e66f00;
-}
+    h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 6px;
+    }
 
-</style>
+    .sub { font-size: 0.875rem; color: #666; margin-bottom: 28px; }
 
+    .field { margin-bottom: 16px; }
+
+    label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #888;
+      margin-bottom: 6px;
+    }
+
+    input {
+      width: 100%;
+      padding: 11px 14px;
+      background: #111;
+      border: 1.5px solid #2e2e2e;
+      border-radius: 10px;
+      color: #f0f0f0;
+      font-family: inherit;
+      font-size: 0.95rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px rgba(211,47,47,0.15);
+    }
+
+    .error-msg {
+      background: rgba(211,47,47,0.15);
+      border: 1px solid rgba(211,47,47,0.3);
+      color: #ff6b6b;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 13px;
+      background: var(--red);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 4px 14px rgba(211,47,47,0.35);
+    }
+
+    button:hover { background: var(--red-dark); transform: translateY(-1px); }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.83rem;
+      color: #555;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover { color: #888; }
+  </style>
 </head>
-
 <body>
 
-<div class="login-box">
+<div class="card">
+  <div class="brand">
+    <div class="brand-icon">🏍️</div>
+    <div class="brand-text">
+      <h1>Eazy Rides</h1>
+      <p>IMTH Campus</p>
+    </div>
+  </div>
 
-<h2>Admin Login</h2>
+  <h2>Admin Login</h2>
+  <p class="sub">Sign in to access the dashboard</p>
 
-<input id="user" placeholder="Username">
+  <div class="error-msg" id="errorMsg">Invalid username or password.</div>
 
-<input id="pass" type="password" placeholder="Password">
+  <div class="field">
+    <label>Username</label>
+    <input id="user" type="text" placeholder="admin" autocomplete="username">
+  </div>
 
-<button onclick="login()">Login</button>
+  <div class="field">
+    <label>Password</label>
+    <input id="pass" type="password" placeholder="••••••••" autocomplete="current-password">
+  </div>
 
+  <button onclick="login()">Sign In →</button>
+
+  <a href="index.html" class="back-link">← Back to Eazy Rides</a>
 </div>
 
-<script src="script.js"></script>
+<script>
+  document.addEventListener("keydown", e => { if (e.key === "Enter") login(); });
 
+  function login() {
+    const u = document.getElementById("user").value.trim();
+    const p = document.getElementById("pass").value;
+    const err = document.getElementById("errorMsg");
+
+    // Credentials configurable here
+    const ADMINS = [
+      { username: "admin",  password: "imth123" },
+      { username: "admin2", password: "imth456" },
+    ];
+
+    const match = ADMINS.find(a => a.username === u && a.password === p);
+    if (match) {
+      sessionStorage.setItem("adminUser", u);
+      window.location = "dashboard.html";
+    } else {
+      err.style.display = "block";
+      document.getElementById("pass").value = "";
+    }
+  }
+</script>
 </body>
 </html>
