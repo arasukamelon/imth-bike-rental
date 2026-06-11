@@ -141,19 +141,12 @@
       <select id="payment" required onchange="showPayment()">
         <option value=""    data-i18n="form.payment.select">Select payment</option>
         <option value="QR"  data-i18n="form.payment.qr">QR Payment</option>
-        <option value="Card"data-i18n="form.payment.card">Debit / Credit Card</option>
       </select>
     </div>
 
     <div id="qrBox">
       <p data-i18n="form.qr.label">Scan to pay:</p>
-      <img src="qr.avif" alt="QR Code" width="180">
-    </div>
-
-    <div id="cardForm">
-      <input type="text" data-i18n-ph="form.card.number"  placeholder="Card Number">
-      <input type="text" data-i18n-ph="form.card.expiry"  placeholder="Expiry Date (MM/YY)">
-      <input type="text" data-i18n-ph="form.card.cvv"     placeholder="CVV">
+      <img src="payment.jpeg" alt="QR Code" width="180">
     </div>
 
     <div class="field">
