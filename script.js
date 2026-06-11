@@ -4,8 +4,6 @@ const translations = {
     "nav.home": "Home",
     "nav.bikes": "Bikes",
     "nav.book": "Book Now",
-    "nav.today": "Today",
-    "nav.history": "History",
     "hero.title": "Ride Free.<br>Rent Easy.",
     "hero.sub": "Campus bike rentals for students",
     "hero.cta": "Book a Bike",
@@ -18,12 +16,10 @@ const translations = {
     "bikes.electric": "Electric Scooter",
     "bikes.electric.desc": "Eco-friendly & smooth ride",
     "bikes.price": "₹100 / first hr · ₹50 next",
-    "bikes.rented": "Currently Rented",
+    "bikes.booked": "Currently Booked",
     "form.title": "Book a Bike",
     "form.name": "Full Name",
     "form.name.ph": "Your full name",
-    "form.student": "Student ID",
-    "form.student.ph": "e.g. 2023001",
     "form.email": "Email",
     "form.email.ph": "you@campus.edu",
     "form.phone": "Phone",
@@ -47,14 +43,9 @@ const translations = {
     "form.card.cvv": "CVV",
     "form.proof": "Upload Payment Proof",
     "form.proof.hint": "Upload screenshot or photo of your payment (JPG, PNG, PDF)",
+    "form.licence": "Upload Driving Licence",
+    "form.licence.hint": "Upload a photo or scan of your valid driving licence (JPG, PNG, PDF)",
     "form.submit": "Submit Booking",
-    "schedule.title": "Today's Bookings",
-    "history.title": "Booking History",
-    "table.bike": "Bike",
-    "table.date": "Date",
-    "table.time": "Time Slot",
-    "table.payment": "Payment",
-    "table.status": "Status",
     "cs.label": "CS / Help",
     "status.pending": "Pending",
     "status.confirmed": "Confirmed",
@@ -65,8 +56,6 @@ const translations = {
     "nav.home": "होम",
     "nav.bikes": "बाइक",
     "nav.book": "अभी बुक करें",
-    "nav.today": "आज",
-    "nav.history": "इतिहास",
     "hero.title": "स्वतंत्र सवारी।<br>आसान किराया।",
     "hero.sub": "छात्रों के लिए कैंपस बाइक किराया",
     "hero.cta": "बाइक बुक करें",
@@ -79,12 +68,10 @@ const translations = {
     "bikes.electric": "इलेक्ट्रिक स्कूटर",
     "bikes.electric.desc": "पर्यावरण के अनुकूल सवारी",
     "bikes.price": "₹100 / पहला घंटा · ₹50 अगला",
-    "bikes.rented": "अभी किराए पर",
+    "bikes.booked": "अभी बुक है",
     "form.title": "बाइक बुक करें",
     "form.name": "पूरा नाम",
     "form.name.ph": "आपका पूरा नाम",
-    "form.student": "छात्र आईडी",
-    "form.student.ph": "जैसे 2023001",
     "form.email": "ईमेल",
     "form.email.ph": "you@campus.edu",
     "form.phone": "फोन",
@@ -107,15 +94,10 @@ const translations = {
     "form.card.expiry": "समाप्ति तिथि (MM/YY)",
     "form.card.cvv": "CVV",
     "form.proof": "भुगतान प्रमाण अपलोड करें",
-    "form.proof.hint": "भुगतान का स्क्रीनशॉट या फोटो अपलोड करें",
+    "form.proof.hint": "भुगतान का स्क्रीनशॉट या फोटो अपलोड करें (JPG, PNG, PDF)",
+    "form.licence": "ड्राइविंग लाइसेंस अपलोड करें",
+    "form.licence.hint": "अपने वैध ड्राइविंग लाइसेंस की फोटो अपलोड करें (JPG, PNG, PDF)",
     "form.submit": "बुकिंग जमा करें",
-    "schedule.title": "आज की बुकिंग",
-    "history.title": "बुकिंग इतिहास",
-    "table.bike": "बाइक",
-    "table.date": "तिथि",
-    "table.time": "समय",
-    "table.payment": "भुगतान",
-    "table.status": "स्थिति",
     "cs.label": "सहायता",
     "status.pending": "प्रतीक्षित",
     "status.confirmed": "स्वीकृत",
@@ -131,70 +113,66 @@ function applyLanguage(lang) {
   localStorage.setItem("lang", lang);
   const t = translations[lang];
 
-  // Text nodes
   document.querySelectorAll("[data-i18n]").forEach(el => {
     const key = el.getAttribute("data-i18n");
-    if (t[key] !== undefined) {
-      el.innerHTML = t[key];
-    }
+    if (t[key] !== undefined) el.innerHTML = t[key];
   });
 
-  // Placeholder attributes
   document.querySelectorAll("[data-i18n-ph]").forEach(el => {
     const key = el.getAttribute("data-i18n-ph");
-    if (t[key] !== undefined) {
-      el.placeholder = t[key];
-    }
+    if (t[key] !== undefined) el.placeholder = t[key];
   });
-}
-
-/* ── DARK MODE ─────────────────────────────────── */
-function toggleDark(on) {
-  document.body.classList.toggle("dark", on);
-  localStorage.setItem("dark", on ? "1" : "0");
 }
 
 /* ── INIT ──────────────────────────────────────── */
 window.addEventListener("DOMContentLoaded", () => {
-  // Restore language
   const langSelect = document.getElementById("language");
   if (langSelect) {
     langSelect.value = currentLang;
     applyLanguage(currentLang);
   }
 
-  // Restore dark mode
-  const darkOn = localStorage.getItem("dark") === "1";
-  const darkToggle = document.getElementById("darkMode");
-  if (darkToggle) {
-    darkToggle.checked = darkOn;
-    document.body.classList.toggle("dark", darkOn);
+  // Set minimum date to today
+  const dateEl = document.getElementById("date");
+  if (dateEl) {
+    const today = new Date().toISOString().split("T")[0];
+    dateEl.min = today;
   }
 
-  loadBookings();
+  loadBikeAvailability();
+  setInterval(loadBikeAvailability, 60000);
 });
 
+/* ── API URL ───────────────────────────────────── */
+// ⚠️ IMPORTANT: Replace this URL with your latest Apps Script deployment URL
+const API_URL = "https://script.google.com/macros/s/AKfycbyLfXICBxbBozLdSxnshdE6tCQbtMqB9PoSYE56yBM8kSVYyk9R33vWORYLl0bNY7rL9Q/exec";
+
 /* ── PRICE CALCULATION ─────────────────────────── */
-// ₹100 first hour, ₹50 each subsequent hour
 function calcPrice(hours) {
   if (!hours || hours < 1) return 0;
   return 100 + Math.max(0, hours - 1) * 50;
 }
 
-const bikeTypeEl = document.getElementById("bikeType");
-const hoursEl    = document.getElementById("hours");
-const totalEl    = document.getElementById("totalPrice");
-const startEl    = document.getElementById("start");
-const endEl      = document.getElementById("end");
+const hoursEl = document.getElementById("hours");
+const totalEl = document.getElementById("totalPrice");
+const startEl = document.getElementById("start");
+const endEl   = document.getElementById("end");
+
+function timeToMinutes(t) {
+  if (!t) return 0;
+  const [h, m] = t.split(":").map(Number);
+  return h * 60 + m;
+}
 
 function recalcFromTime() {
   const s = startEl && startEl.value;
   const e = endEl && endEl.value;
   if (s && e) {
     const diff = (timeToMinutes(e) - timeToMinutes(s)) / 60;
-    if (diff > 0 && hoursEl) {
-      hoursEl.value = Math.ceil(diff);
-      if (totalEl) totalEl.value = "₹ " + calcPrice(Math.ceil(diff));
+    if (diff > 0) {
+      const h = Math.ceil(diff);
+      if (hoursEl) hoursEl.value = h;
+      if (totalEl) totalEl.value = "₹ " + calcPrice(h);
     }
   }
 }
@@ -211,200 +189,237 @@ if (endEl)   endEl.addEventListener("change", recalcFromTime);
 /* ── PAYMENT TOGGLE ───────────────────────────── */
 function showPayment() {
   const method = document.getElementById("payment").value;
-  document.getElementById("qrBox").style.display   = method === "QR"   ? "block" : "none";
+  document.getElementById("qrBox").style.display    = method === "QR"   ? "block" : "none";
   document.getElementById("cardForm").style.display = method === "Card" ? "block" : "none";
 }
 
 /* ── HELPERS ───────────────────────────────────── */
-function timeToMinutes(t) {
-  const [h, m] = t.split(":").map(Number);
-  return h * 60 + m;
+function parseTime(val) {
+  if (!val) return null;
+  const s = String(val).trim();
+  // Already "HH:MM"
+  if (/^\d{1,2}:\d{2}$/.test(s)) {
+    return s.length === 4 ? "0" + s : s;
+  }
+  // ISO string / Date serialised
+  if (s.includes("T") || s.includes("1970") || s.length > 10) {
+    const d = new Date(s);
+    if (!isNaN(d)) {
+      return String(d.getHours()).padStart(2, "0") + ":" +
+             String(d.getMinutes()).padStart(2, "0");
+    }
+  }
+  return null;
 }
 
-function formatTime(ts) {
-  const d = new Date(ts);
-  return String(d.getHours()).padStart(2,"0") + ":" + String(d.getMinutes()).padStart(2,"0");
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload  = () => resolve(reader.result.split(",")[1]);
+    reader.onerror = () => reject(new Error("File read failed"));
+    reader.readAsDataURL(file);
+  });
 }
 
-function formatDate(ds) {
-  const d = new Date(ds);
-  return String(d.getDate()).padStart(2,"0") + "/" +
-         String(d.getMonth()+1).padStart(2,"0") + "/" +
-         d.getFullYear();
+/* ── PAST-TIME VALIDATION ─────────────────────── */
+function isPastTime(dateVal, startVal) {
+  if (!dateVal || !startVal) return false;
+  const now   = new Date();
+  const today = now.toISOString().split("T")[0];
+  if (dateVal !== today) return false;
+  const [sh, sm]   = startVal.split(":").map(Number);
+  const nowMinutes = now.getHours() * 60 + now.getMinutes();
+  const startMin   = sh * 60 + sm;
+  return startMin < nowMinutes;
 }
 
-function statusBadge(status) {
-  const map = {
-    Pending:   { color: "#f59e0b", label: translations[currentLang]["status.pending"]   || "Pending"   },
-    Confirmed: { color: "#16a34a", label: translations[currentLang]["status.confirmed"] || "Confirmed" },
-    Rejected:  { color: "#dc2626", label: translations[currentLang]["status.rejected"]  || "Rejected"  },
-    Cancelled: { color: "#6b7280", label: translations[currentLang]["status.cancelled"] || "Cancelled" },
-  };
-  const s = map[status] || map["Pending"];
-  return `<span style="background:${s.color};color:#fff;padding:3px 10px;border-radius:20px;font-size:0.78rem;font-weight:600">${s.label}</span>`;
-}
-
-/* ── API ───────────────────────────────────────── */
-const API_URL = "https://script.google.com/macros/s/AKfycbyZoXCrJdUyzFfms_NNeTXYh7rB-JnmYXkw7WEGn4Z3WkqjYBk4tTqp62Qy8mCG5hSMEQ/exec";
-
+/* ── SLOT CONFLICT CHECK ──────────────────────── */
 async function validateTimeSlot() {
   try {
-    const res = await fetch(API_URL);
+    const res      = await fetch(API_URL);
     const bookings = await res.json();
 
-    const bike  = document.getElementById("bikeType").value;
-    const date  = document.getElementById("date").value;
-    const start = document.getElementById("start").value;
-    const end   = document.getElementById("end").value;
+    if (!Array.isArray(bookings)) return true; // can't validate — allow
+
+    const bike     = document.getElementById("bikeType").value;
+    const date     = document.getElementById("date").value;
+    const start    = document.getElementById("start").value;
+    const end      = document.getElementById("end").value;
     const startMin = timeToMinutes(start);
     const endMin   = timeToMinutes(end);
 
-    for (let b of bookings) {
+    for (const b of bookings) {
       if (b.status === "Cancelled" || b.status === "Rejected") continue;
       if (b.bike !== bike) continue;
       const bookingDate = new Date(b.date).toISOString().split("T")[0];
       if (bookingDate !== date) continue;
-      const bStart = timeToMinutes(formatTime(b.start));
-      const bEnd   = timeToMinutes(formatTime(b.end));
+      const bStartStr = parseTime(b.start);
+      const bEndStr   = parseTime(b.end);
+      if (!bStartStr || !bEndStr) continue;
+      const bStart = timeToMinutes(bStartStr);
+      const bEnd   = timeToMinutes(bEndStr);
       if (startMin < bEnd && endMin > bStart) {
         alert("This bike is already booked for that time slot. Please choose a different time.");
         return false;
       }
     }
     return true;
-  } catch {
-    return true; // allow submit if API is unreachable
+  } catch (err) {
+    console.warn("Slot check failed (allowing anyway):", err);
+    return true;
   }
 }
 
-/* Convert file to base64 */
-function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload  = () => resolve(reader.result.split(",")[1]);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
 /* ── FORM SUBMIT ───────────────────────────────── */
-document.getElementById("bookingForm").addEventListener("submit", async function(e) {
+document.getElementById("bookingForm").addEventListener("submit", async function (e) {
   e.preventDefault();
 
-  const btn = document.getElementById("submitBtn");
-  btn.disabled = true;
+  const btn      = document.getElementById("submitBtn");
+  const dateVal  = document.getElementById("date").value;
+  const startVal = document.getElementById("start").value;
+  const endVal   = document.getElementById("end").value;
+
+  // Block past-time bookings (today only)
+  if (isPastTime(dateVal, startVal)) {
+    alert("You cannot book a time slot that has already passed. Please select a current or future start time.");
+    return;
+  }
+
+  // End must be after start
+  if (startVal && endVal && timeToMinutes(endVal) <= timeToMinutes(startVal)) {
+    alert("End time must be after start time.");
+    return;
+  }
+
+  // Validate required fields
+  const nameVal    = document.getElementById("name").value.trim();
+  const emailVal   = document.getElementById("email").value.trim();
+  const phoneVal   = document.getElementById("phone").value.trim();
+  const bikeVal    = document.getElementById("bikeType").value;
+  const paymentVal = document.getElementById("payment").value;
+
+  if (!nameVal || !emailVal || !phoneVal || !bikeVal || !dateVal || !startVal || !endVal || !paymentVal) {
+    alert("Please fill in all required fields.");
+    return;
+  }
+
+  btn.disabled    = true;
   btn.textContent = "Checking availability…";
 
   const valid = await validateTimeSlot();
   if (!valid) {
-    btn.disabled = false;
+    btn.disabled    = false;
     btn.textContent = translations[currentLang]["form.submit"] || "Submit Booking";
     return;
   }
 
-  btn.textContent = "Uploading…";
+  btn.textContent = "Uploading files…";
 
+  // Payment proof → base64
+  let proofBase64 = "", proofName = "";
   const proofFile = document.getElementById("proof").files[0];
-  let proofBase64 = "";
-  let proofName   = "";
   if (proofFile) {
-    proofBase64 = await fileToBase64(proofFile);
-    proofName   = proofFile.name;
+    try {
+      proofBase64 = await fileToBase64(proofFile);
+      proofName   = proofFile.name;
+    } catch (err) {
+      alert("Failed to read payment proof file. Please try again.");
+      btn.disabled    = false;
+      btn.textContent = translations[currentLang]["form.submit"] || "Submit Booking";
+      return;
+    }
   }
 
+  // Driving licence → base64
+  let licenceBase64 = "", licenceName = "";
+  const licenceFile = document.getElementById("licence").files[0];
+  if (licenceFile) {
+    try {
+      licenceBase64 = await fileToBase64(licenceFile);
+      licenceName   = licenceFile.name;
+    } catch (err) {
+      alert("Failed to read driving licence file. Please try again.");
+      btn.disabled    = false;
+      btn.textContent = translations[currentLang]["form.submit"] || "Submit Booking";
+      return;
+    }
+  }
+
+  btn.textContent = "Submitting booking…";
+
+  // Build payload — NO student field
   const data = {
-    name:       document.getElementById("name").value,
-    student:    document.getElementById("student").value,
-    email:      document.getElementById("email").value,
-    phone:      document.getElementById("phone").value,
-    bike:       document.getElementById("bikeType").value,
-    date:       document.getElementById("date").value,
-    start:      document.getElementById("start").value,
-    end:        document.getElementById("end").value,
-    hours:      document.getElementById("hours").value,
-    price:      document.getElementById("totalPrice").value,
-    payment:    document.getElementById("payment").value,
-    status:     "Pending",
+    name:         nameVal,
+    email:        emailVal,
+    phone:        phoneVal,
+    bike:         bikeVal,
+    date:         dateVal,
+    start:        startVal,
+    end:          endVal,
+    hours:        document.getElementById("hours").value || "",
+    price:        document.getElementById("totalPrice").value || "",
+    payment:      paymentVal,
+    status:       "Pending",
     proofBase64,
     proofName,
+    licenceBase64,
+    licenceName,
   };
 
   try {
-    await fetch(API_URL, { method: "POST", body: JSON.stringify(data) });
-    alert("Booking submitted! Please wait for admin confirmation.");
+    const res = await fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify(data)
+    });
+    const json = await res.json();
+    if (json.error) throw new Error(json.error);
+
+    alert(
+      "Booking submitted successfully!\n\n" +
+      "A confirmation email has been sent to " + data.email + ".\n" +
+      "Please wait for admin approval."
+    );
     document.getElementById("bookingForm").reset();
-    document.getElementById("qrBox").style.display   = "none";
+    document.getElementById("qrBox").style.display    = "none";
     document.getElementById("cardForm").style.display = "none";
-    loadBookings();
-  } catch {
-    alert("Failed to submit. Please check your connection and try again.");
+    loadBikeAvailability();
+  } catch (err) {
+    alert("Failed to submit booking. Please check your connection and try again.\n\nError: " + err.message);
   }
 
-  btn.disabled = false;
+  btn.disabled    = false;
   btn.textContent = translations[currentLang]["form.submit"] || "Submit Booking";
 });
 
-/* ── LOAD BOOKINGS ─────────────────────────────── */
-async function loadBookings() {
+/* ── BIKE AVAILABILITY ─────────────────────────── */
+async function loadBikeAvailability() {
   try {
     const res  = await fetch(API_URL);
     const data = await res.json();
-
-    const scheduleBody = document.querySelector("#scheduleTable tbody");
-    const historyBody  = document.querySelector("#historyTable tbody");
-    if (scheduleBody) scheduleBody.innerHTML = "";
-    if (historyBody)  historyBody.innerHTML  = "";
-
-    const today = new Date().toISOString().split("T")[0];
-
-    data.forEach(b => {
-      if (b.status === "Cancelled") return;
-      const time        = (b.start ? formatTime(b.start) : "--") + " – " + (b.end ? formatTime(b.end) : "--");
-      const bookingDate = new Date(b.date).toISOString().split("T")[0];
-
-      if (scheduleBody && bookingDate === today) {
-        scheduleBody.innerHTML += `
-          <tr>
-            <td>${b.bike}</td>
-            <td>${time}</td>
-            <td>${statusBadge(b.status || "Pending")}</td>
-          </tr>`;
-      }
-
-      if (historyBody) {
-        historyBody.innerHTML += `
-          <tr>
-            <td>${b.bike}</td>
-            <td>${formatDate(b.date)}</td>
-            <td>${time}</td>
-            <td>${b.payment}</td>
-            <td>${statusBadge(b.status || "Pending")}</td>
-          </tr>`;
-      }
-    });
-
-    updateBikeAvailability(data);
+    if (Array.isArray(data)) updateBikeAvailability(data);
   } catch (err) {
-    console.error("Failed to load bookings", err);
+    console.error("Failed to load availability:", err);
   }
 }
 
-/* ── BIKE AVAILABILITY ─────────────────────────── */
 function updateBikeAvailability(bookings) {
-  const today = new Date().toISOString().split("T")[0];
-  const now   = new Date();
+  const today  = new Date().toISOString().split("T")[0];
+  const now    = new Date();
   const nowMin = now.getHours() * 60 + now.getMinutes();
 
   document.querySelectorAll(".bike-card").forEach(card => {
-    const bikeName = card.querySelector("h3").innerText.trim();
+    const bikeName = card.getAttribute("data-bike");
+
     const isActive = bookings.some(b => {
       if (b.status === "Cancelled" || b.status === "Rejected") return false;
       if (b.bike !== bikeName) return false;
       const bookingDate = new Date(b.date).toISOString().split("T")[0];
       if (bookingDate !== today) return false;
-      // currently rented = overlaps now
-      const bStart = timeToMinutes(formatTime(b.start));
-      const bEnd   = timeToMinutes(formatTime(b.end));
+      const bStartStr = parseTime(b.start);
+      const bEndStr   = parseTime(b.end);
+      if (!bStartStr || !bEndStr) return false;
+      const bStart = timeToMinutes(bStartStr);
+      const bEnd   = timeToMinutes(bEndStr);
       return nowMin >= bStart && nowMin < bEnd;
     });
 
